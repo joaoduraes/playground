@@ -58,7 +58,9 @@ public class Main {
 
         birthdayCakeCandles(arr);*/
 
-        timeConversion("12:05:45PM");
+        /*timeConversion("12:05:45PM");*/
+
+        gradingStudents(Arrays.asList(73, 67, 38, 33));
     }
 
     /*
@@ -301,6 +303,55 @@ public class Main {
         } catch (Exception e) {
             throw new IllegalArgumentException();
         }
+    }
+
+    /*
+     * Complete the 'gradingStudents' function below.
+     *
+     * The function is expected to return an INTEGER_ARRAY.
+     * The function accepts INTEGER_ARRAY grades as parameter.
+     */
+
+    public static List<Integer> gradingStudents(List<Integer> grades) {
+        if (grades == null || grades.isEmpty() || grades.size() > 60) {
+            throw new IllegalArgumentException();
+        }
+
+        List<Integer> roundedGrades = new ArrayList<>(grades.size());
+
+        for (Integer grade : grades) {
+            if (grade < 0 || grade > 100) {
+                throw new IllegalArgumentException();
+            }
+
+            Integer adjustedGrade = grade;
+
+            if (grade >= 38) {
+                int diffToNextMultipleOfFive = findDiffToNextMultipleOfFive(grade);
+                if (diffToNextMultipleOfFive < 3) {
+                    adjustedGrade = grade + diffToNextMultipleOfFive;
+                }
+            }
+
+            roundedGrades.add(adjustedGrade);
+        }
+
+        return roundedGrades;
+    }
+
+    private static int findDiffToNextMultipleOfFive(Integer grade) {
+        int diff = 0;
+
+        if (grade % 5 != 0) {
+            for (int i = 1; i < 5; i++) {
+                if ((grade + i) % 5 == 0) {
+                    diff = i;
+                    break;
+                }
+            }
+        }
+
+        return diff;
     }
 
 }
